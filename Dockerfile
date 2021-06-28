@@ -56,3 +56,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Install Firefox dependencies \
     libdbus-glib-1-2 \
     libxt6
+
+# Install playwright browsers in a shared folder so next installations
+# of playwright in this image will use the one provided by default
+ENV PLAYWRIGHT_BROWSERS_PATH=/root/shared-playwright-browsers
+
+RUN npm i -D -g --unsafe-perm=true --allow-root playwright
+
+# images inheriting this one should not download browsers again
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+
+
